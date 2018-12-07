@@ -8,56 +8,57 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 
 public class Cell {
-    private final Property<CellState> stateProperty = new SimpleObjectProperty<>(CellState.DEAD);
 
-    /**
-     * Determines whether this {@link Cell} is alive or not.
-     *
-     * @return {@code true} if this {@link Cell} is alive and {@code false} otherwise
-     */
+  private final Property<CellState> stateProperty = new SimpleObjectProperty<>(CellState.DEAD);
 
-    public boolean isAlive() {
-        return getState().isAlive;
-    }
+  /**
+   * Determines whether this {@link Cell} is alive or not.
+   *
+   * @return {@code true} if this {@link Cell} is alive and {@code false} otherwise
+   */
 
-    /**
-     * Sets the state of this {@link Cell}.
-     *
-     * @param cellState the new state of this {@link Cell}
-     */
+  public boolean isAlive () {
+    return getState().isAlive;
+  }
 
-    public void setState(CellState cellState) {
-        getStateProperty().setValue(cellState);
-    }
+  /**
+   * Returns the current state of this {@link Cell}.
+   *
+   * @return the current state of this {@link Cell}
+   */
 
-    /**
-     * Returns the current state of this {@link Cell}.
-     *
-     * @return the current state of this {@link Cell}
-     */
+  public CellState getState () {
+    return getStateProperty().getValue();
+  }
 
-    public CellState getState(){
-        return getStateProperty().getValue();
-    }
+  /**
+   * Sets the state of this {@link Cell}.
+   *
+   * @param cellState the new state of this {@link Cell}
+   */
 
-    /**
-     * Change the state of this {@link Cell} from ALIVE to DEAD or from DEAD to ALIVE.
-     */
+  public void setState (CellState cellState) {
+    getStateProperty().setValue(cellState);
+  }
 
-    public void toggleState() {
-        CellState[] possibleStates = CellState.values();
-        int stateOrdinal = getState().ordinal();
-        int numberOfPossibleStates = possibleStates.length;
-        setState(possibleStates[(stateOrdinal+1)%numberOfPossibleStates]);
-    }
+  /**
+   * Change the state of this {@link Cell} from ALIVE to DEAD or from DEAD to ALIVE.
+   */
 
-    /**
-     * Returns this {@link Cell}'s state property.
-     *
-     * @return this {@link Cell}'s state property.
-     */
-    public Property<CellState> getStateProperty() {
-        return stateProperty;
-    }
+  public void toggleState () {
+    CellState[] possibleStates = CellState.values();
+    int stateOrdinal = getState().ordinal();
+    int numberOfPossibleStates = possibleStates.length;
+    setState(possibleStates[(stateOrdinal + 1) % numberOfPossibleStates]);
+  }
+
+  /**
+   * Returns this {@link Cell}'s state property.
+   *
+   * @return this {@link Cell}'s state property.
+   */
+  public Property<CellState> getStateProperty () {
+    return stateProperty;
+  }
 
 }

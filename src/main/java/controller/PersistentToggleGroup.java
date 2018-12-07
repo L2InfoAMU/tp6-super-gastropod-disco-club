@@ -9,14 +9,13 @@ import javafx.scene.input.MouseEvent;
 /**
  * An extension of {@link ToggleGroup} that ensures that a {@link Toggle} in a group must always be
  * selected.
- *
  */
 class PersistentToggleGroup extends ToggleGroup {
 
   /**
    * Creates a new {@code PersistentToggleGroup}.
    */
-  PersistentToggleGroup() {
+  PersistentToggleGroup () {
     getToggles().addListener((Change<? extends Toggle> change) -> {
       while (change.next()) {
         for (Toggle toggle : change.getAddedSubList()) {
