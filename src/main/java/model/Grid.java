@@ -164,11 +164,8 @@ public class Grid implements Iterable<Cell> {
    * Sets all {@link Cell}s in this {@code Grid} as dead.
    */
   void clear () {
-    for (int rowIndex = 0; rowIndex < getNumberOfRows(); rowIndex++) {
-      for (int columnIndex = 0; columnIndex < getNumberOfColumns(); columnIndex++) {
-        cells[rowIndex][columnIndex].setState(CellState.DEAD);
-      }
-    }
+    for (Cell cell : this)
+      cell.setState(CellState.DEAD);
   }
 
   /**
@@ -178,10 +175,7 @@ public class Grid implements Iterable<Cell> {
    * @throws NullPointerException if {@code random} is {@code null}.
    */
   void randomGeneration (Random random) {
-    for (int rowIndex = 0; rowIndex < getNumberOfRows(); rowIndex++) {
-      for (int columnIndex = 0; columnIndex < getNumberOfColumns(); columnIndex++) {
-        cells[rowIndex][columnIndex].setState(random.nextBoolean() ? CellState.ALIVE : CellState.DEAD);
-      }
-    }
+    for (Cell cell : this)
+      cell.setState(random.nextBoolean() ? CellState.ALIVE : CellState.DEAD);
   }
 }
