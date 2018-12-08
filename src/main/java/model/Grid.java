@@ -108,11 +108,9 @@ public class Grid implements Iterable<Cell> {
   }
 
   private CellState findNextCellState (int rowIndex, int columnIndex) {
-    int aliveNeighboursCount = countAliveNeighbours(rowIndex, columnIndex);
-
     return getNeighbours(rowIndex, columnIndex).stream()
       .filter(cell -> cell.getState() == CellState.ALIVE_BLUE)
-      .count() > aliveNeighboursCount / 2
+      .count() > countAliveNeighbours(rowIndex, columnIndex) / 2
         ? CellState.ALIVE_BLUE
         : CellState.ALIVE_GREEN;
   }
