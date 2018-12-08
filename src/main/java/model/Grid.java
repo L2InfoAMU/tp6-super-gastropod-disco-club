@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * {@link Grid} instances represent the grid in <i>The Game of Life</i>.
  */
@@ -108,17 +107,28 @@ public class Grid implements Iterable<Cell> {
       .count();
   }
 
+  private CellState findNextCellState (int rowIndex, int columnIndex) {
+    int aliveNeighboursCount = countAliveNeighbours(rowIndex, columnIndex);
+
+    return getNeighbours(rowIndex, columnIndex).stream()
+      .filter(cell -> cell.getState() == CellState.ALIVE_BLUE)
+      .count() > aliveNeighboursCount / 2
+        ? CellState.ALIVE_BLUE
+        : CellState.ALIVE_GREEN;
+  }
+
   private CellState calculateNextState (int rowIndex, int columnIndex) {
-    int aliveNeighbours = countAliveNeighbours(rowIndex, columnIndex);
+    int aliveNeighboursCount = countAliveNeighbours(rowIndex, columnIndex);
     Cell cell = getCell(rowIndex, columnIndex);
 
     switch (cell.getState()) {
       case DEAD:
-        if (aliveNeighbours == 3)
-          return CellState.ALIVE;
+        if (aliveNeighboursCount == 3)
+          return findNextCellState(rowIndex, columnIndex);
         break;
-      case ALIVE:
-        if (aliveNeighbours < 2 || aliveNeighbours > 3)
+      case ALIVE_BLUE:
+      case ALIVE_GREEN:
+        if (aliveNeighboursCount < 2 || aliveNeighboursCount > 3)
           return CellState.DEAD;
         break;
     }
@@ -176,6 +186,10 @@ public class Grid implements Iterable<Cell> {
    */
   void randomGeneration (Random random) {
     for (Cell cell : this)
-      cell.setState(random.nextBoolean() ? CellState.ALIVE : CellState.DEAD);
+      cell.setState(random.nextBoolean()
+        ? random.nextBoolean()
+          ? CellState.ALIVE_BLUE
+          : CellState.ALIVE_GREEN
+        : CellState.DEAD);
   }
 }
